@@ -26,8 +26,6 @@ Future<ApiResponse> userRegistration(String? image, String name, String phone, S
       }
     );
 
-    print("Response status code is: ${response.statusCode}");
-
     switch (response.statusCode) {
       case 200:
         apiResponse.data = User.fromJSON(jsonDecode(response.body));   
@@ -73,8 +71,6 @@ Future<ApiResponse> userLogin(String phone, String password) async {
       },
     );
 
-    print("Response status code is: ${response.statusCode}");
-
     switch (response.statusCode) {
       case 200:
         apiResponse.data = User.fromJSON(jsonDecode(response.body));   
@@ -111,8 +107,6 @@ Future<ApiResponse> userDetails() async {
       },
     );
 
-    print("${response.statusCode}");
-
     switch(response.statusCode) {
       case 200:
         apiResponse.data = jsonDecode(response.body);
@@ -144,8 +138,6 @@ Future<ApiResponse> getAllUsers() async {
         "Authorization": "Bearer $token",
       },
     );
-
-    print("Response gave code: ${response.statusCode}");
 
     switch(response.statusCode) {
       case 200:

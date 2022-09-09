@@ -42,7 +42,9 @@ class ChatController extends Controller
     }
 
     public function messages($id){
-        $chats = Chat::where("recipient_id", $id)->with('user:id,name,image')
+        $chats = Chat::where("recipient_id", $id)->where("user_id", auth()->user()->id)
+        ->orWhere("recipient_id", auth()->user()->id)->where("user_id", $id)
+        ->with('user:id,name,image')
         ->get();
 
         return response()->json([

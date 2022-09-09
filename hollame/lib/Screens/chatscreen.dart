@@ -20,6 +20,20 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   TextEditingController _message = TextEditingController();
 
+  Map user = {};
+
+  void getUser() async {
+    ApiResponse response = await userDetails();
+
+    if(response.error == null){
+      setState(() {
+        Map things = response.data as Map;
+
+        user = things["user"];
+      });
+    }
+  }
+
   void sendYourMessage(int id, message) async {
     ApiResponse response = await sendMessage(id, message);
 
@@ -76,6 +90,7 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
 
   void initState(){
+    getUser();
     getMessages();
     super.initState();
   }
@@ -250,7 +265,7 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
           Expanded(
             child: FutureBuilder(
-              future: getMessages(),
+              // future: getMessages(),
               builder: (context, snapshot) {
                 if(snapshot.hasError){
                   Fluttertoast.showToast(msg: somethingwentwrong);
@@ -269,67 +284,71 @@ class _ChatScreenState extends State<ChatScreen> {
                     itemCount: data.length,
                     itemBuilder: (context, index) {
                       return Align(
-                        alignment: Alignment.topRight,
-                        child: Container(
-                          constraints: BoxConstraints(
-                            maxWidth: MediaQuery.of(context).size.width * 0.85,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.brown[400],
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    CircleAvatar(
-                                      radius: 12,
-                                      child: Container(
-                                        decoration: data[index]["user"]["image"] == null ? BoxDecoration(
-                                          color: Colors.brown,
-                                          borderRadius: BorderRadius.circular(12),
-                                        )
-                                        :
-                                        BoxDecoration(
-                                          color: Colors.brown,
-                                          borderRadius: BorderRadius.circular(12),
-                                          image: DecorationImage(
-                                            image: NetworkImage(data[index]["user"]["image"]),
-                                            fit: BoxFit.cover,
+                        alignment: data[index]["user"]["id"] == user["id"] ? Alignment.topRight : Alignment.bottomLeft,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: Container(
+                            constraints: BoxConstraints(
+                              maxWidth: MediaQuery.of(context).size.width * 0.85,
+                            ),
+                            decoration: BoxDecoration(
+                              color: data[index]["user"]["id"] == user["id"] ? Colors.brown[400] : Colors.teal,
+                              borderRadius: data[index]["user"]["id"] == user["id"] ? const BorderRadius.only(topLeft: Radius.circular(7), bottomLeft: Radius.circular(7)) : const BorderRadius.only(topRight: Radius.circular(7), bottomRight: Radius.circular(7)),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      CircleAvatar(
+                                        radius: 12,
+                                        child: Container(
+                                          decoration: data[index]["user"]["image"] == null ? BoxDecoration(
+                                            color: Colors.brown,
+                                            borderRadius: BorderRadius.circular(12),
+                                          )
+                                          :
+                                          BoxDecoration(
+                                            color: Colors.brown,
+                                            borderRadius: BorderRadius.circular(12),
+                                            image: DecorationImage(
+                                              image: NetworkImage(data[index]["user"]["image"]),
+                                              fit: BoxFit.cover,
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.1),
-                                      child: Text(
-                                        data[index]["user"]["name"],
-                                        style: GoogleFonts.rancho(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.white,
+                                      Padding(
+                                        padding: EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.1),
+                                        child: Text(
+                                          data[index]["user"]["name"],
+                                          style: GoogleFonts.rancho(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.white,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    const Divider(height: 0, color: Colors.black),
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-                                      child: Text(
-                                        data[index]["image"],
-                                        style: GoogleFonts.rancho(
-                                          fontSize: 15,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              )
-                            ],
+                                const Divider(height: 0, color: Colors.brown),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                                  child: Text(
+                                    data[index]["message"],
+                                    style: GoogleFonts.rancho(
+                                      fontSize: 15,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       );

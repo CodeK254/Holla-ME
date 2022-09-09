@@ -26,8 +26,6 @@ class _UserUpdateState extends State<UserUpdate> {
     String? imageBits = getStringImage(image);
     ApiResponse response = await userUpdate(imageBits, _username.text, _phone.text, _email.text, _about.text , _facebook.text);
 
-    print("Response body is: ${response.toString()}");
-
     if(response.error == null) {
       Navigator.pushReplacementNamed(context, "/user_profile");
     } else {
@@ -55,8 +53,6 @@ class _UserUpdateState extends State<UserUpdate> {
     setState(() {
       image = File(imageLoc!.path);
     });
-
-    print("Image is: $image");
   }
 
   final TextEditingController _username = TextEditingController();
