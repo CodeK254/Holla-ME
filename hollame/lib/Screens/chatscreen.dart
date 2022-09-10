@@ -265,7 +265,7 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
           Expanded(
             child: FutureBuilder(
-              // future: getMessages(),
+              future: getMessages(),
               builder: (context, snapshot) {
                 if(snapshot.hasError){
                   Fluttertoast.showToast(msg: somethingwentwrong);
