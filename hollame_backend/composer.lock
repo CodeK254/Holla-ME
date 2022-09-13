@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ccbd816a07b206f971042295b899d1ba",
+    "content-hash": "a59c3c762dfd69f263fc4fae2612dafb",
     "packages": [
         {
             "name": "brick/math",
@@ -896,6 +896,57 @@
                 }
             ],
             "time": "2022-08-28T14:45:39+00:00"
+        },
+        {
+            "name": "hizbul/laravel-sms-verification",
+            "version": "v1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hizbul25/laravel-sms-verification.git",
+                "reference": "4d62bc35aad9b166d8264994ae79904f2a66e8a4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hizbul25/laravel-sms-verification/zipball/4d62bc35aad9b166d8264994ae79904f2a66e8a4",
+                "reference": "4d62bc35aad9b166d8264994ae79904f2a66e8a4",
+                "shasum": ""
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Hizbul\\SmsVerification\\SmsVerificationProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Hizbul\\SmsVerification\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Hizbul Bahar",
+                    "email": "hizbul.ku@gmail.com",
+                    "homepage": "http://codesolution.biz",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Send SMS to verify your phone number in laravel.",
+            "keywords": [
+                "SMS Verification Laravel",
+                "SMS Verification OnnoRokom",
+                "sms verification"
+            ],
+            "support": {
+                "issues": "https://github.com/hizbul25/laravel-sms-verification/issues",
+                "source": "https://github.com/hizbul25/laravel-sms-verification/tree/v1.2"
+            },
+            "time": "2020-04-24T03:59:59+00:00"
         },
         {
             "name": "laravel/framework",

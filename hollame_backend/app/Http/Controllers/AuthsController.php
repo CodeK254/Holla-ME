@@ -38,7 +38,7 @@ class AuthsController extends Controller
         if(!Auth::attempt($check)){
             return response()->json([
                 'message' => 'Invalid Credentials',
-            ], 401);
+            ], 403);
         }
 
         $user = Auth::user();
@@ -92,12 +92,26 @@ class AuthsController extends Controller
             "facebook" => "required|string|max:255",
         ]);
 
-        auth()->user()->update([
-            "name" => $attrs['name'],
-            "email" => $attrs['email'],
-            "facebook" => $attrs['facebook'],
-            "about" => $attrs['about'],
-        ]);
+        $image = $this->saveImage($request->image, "profiles");
+
+        if($image){
+            auth()->user()->update([
+                "image" => $image,
+                "name" => $attrs['name'],
+                "email" => $attrs['email'],
+                "facebook" => $attrs['facebook'],
+                "about" => $attrs['about'],
+            ]);
+        } else {
+            auth()->user()->update([
+                "name" => $attrs['name'],
+                "email" => $attrs['email'],
+                "facebook" => $attrs['facebook'],
+                "about" => $attrs['about'],
+            ]);
+        }
+
+
 
         return response()->json([
             "user" => auth()->user(),

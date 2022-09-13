@@ -153,7 +153,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 sendYourMessage(widget.data["id"], _message.text);
               },
               child: CircleAvatar(
-                backgroundColor: Colors.brown[100],
+                backgroundColor: Colors.brown,
                 radius: MediaQuery.of(context).size.width * 0.07,
                 child: _message.text == "" ? const Center(
                   child: Icon(

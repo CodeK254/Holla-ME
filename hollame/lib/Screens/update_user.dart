@@ -23,7 +23,9 @@ class _UserUpdateState extends State<UserUpdate> {
   bool loading = false;
 
   void updateUserInfo() async {
+    print("Image is: $image");
     String? imageBits = getStringImage(image);
+    print("Image in bits are: $imageBits");
     ApiResponse response = await userUpdate(imageBits, _username.text, _phone.text, _email.text, _about.text , _facebook.text);
 
     if(response.error == null) {
@@ -131,26 +133,6 @@ class _UserUpdateState extends State<UserUpdate> {
                                             borderSide: BorderSide(
                                               color: Colors.brown,
                                             ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-                                Center(
-                                  child: Container(
-                                    decoration: const BoxDecoration(
-                                      color: Colors.white70,
-                                    ),
-                                    width: MediaQuery.of(context).size.width * 0.4,
-                                    child: TextFormField(
-                                      controller: _phone,
-                                      decoration: const InputDecoration(
-                                        label: Text("Phone"),
-                                        border: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Colors.brown,
                                           ),
                                         ),
                                       ),

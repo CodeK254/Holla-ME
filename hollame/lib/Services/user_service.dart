@@ -2,7 +2,6 @@
 
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:hollame/Constants/errors.dart';
 import 'package:hollame/Constants/urls.dart';
 import 'package:hollame/Models/api_model.dart';
@@ -76,8 +75,8 @@ Future<ApiResponse> userLogin(String phone, String password) async {
         apiResponse.data = User.fromJSON(jsonDecode(response.body));   
         break;
 
-      case 401:
-        apiResponse.error = unauthorized;
+      case 403:
+        apiResponse.error = "Invalid user login credentials.";
         break;
 
       case 500:
@@ -160,9 +159,10 @@ Future<ApiResponse> getAllUsers() async {
   return apiResponse;
 }
 
-Future userUpdate(String? image, String name, String phone, String email, String about, String facebook) async {
+Future userUpdate(String? imageBits, String name, String phone, String email, String about, String facebook) async {
   ApiResponse apiResponse = ApiResponse();
   try{
+    print("Image as parameter is: $imageBits");
     String token = await getToken();
     final response = await http.put(
       Uri.parse("http://192.168.0.200:8000/api/users/user"),
@@ -170,8 +170,8 @@ Future userUpdate(String? image, String name, String phone, String email, String
         "Accept": "application/json",
         "Authorization" : "Bearer $token",
       },
-      body: image == null ? {
-        "image" : image,
+      body: imageBits == null ? {
+        "image" : imageBits,
         "name" : name,
         "phone" : phone,
         "email" : email,
@@ -313,6 +313,12 @@ Future<ApiResponse> getChat(int uid) async {
 Future<String> getToken() async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   return pref.getString('token') ?? '';
+}
+
+// ---------- USER lOGOUT ----------
+Future<bool> logoutUser() async {
+  SharedPreferences pref = await SharedPreferences.getInstance();
+  return await pref.remove('token');
 }
 
 // ---------get Image String ---------------

@@ -1,7 +1,5 @@
 // ignore_for_file: sort_child_properties_last, use_build_context_synchronously, avoid_print
 
-import 'dart:ffi';
-
 import 'package:hollame/Models/api_model.dart';
 import 'package:hollame/Models/user_model.dart';
 import 'package:hollame/Screens/home.dart';
@@ -72,6 +70,7 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: myAppbar(context, -1),
       body: ListView(
         children: [
           Container(
@@ -79,13 +78,8 @@ class _SignUpState extends State<SignUp> {
               maxWidth: double.infinity,
               maxHeight: MediaQuery.of(context).size.height,
             ),
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(
-                  "assets/signup.jpg",
-                ),
-                fit: BoxFit.cover,
-              ),
+            decoration: BoxDecoration(
+              color: Colors.brown[100],
             ),
             child: Stack(
               children: [
@@ -106,6 +100,7 @@ class _SignUpState extends State<SignUp> {
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
                               child: TextFormField(
+                                keyboardType: TextInputType.number,
                                 style: const TextStyle(color: Colors.white),
                                 controller: _phone,
                                 validator: (value) {
@@ -151,7 +146,9 @@ class _SignUpState extends State<SignUp> {
                               padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
                               child: TextButton(
                                 onPressed: (){
-                                  _controller.jumpToPage(1);
+                                  if(_formKeyOne.currentState!.validate()){
+                                    _controller.jumpToPage(1);
+                                  }
                                 },
                                 style: TextButton.styleFrom(
                                   backgroundColor: Colors.blue,
@@ -168,6 +165,7 @@ class _SignUpState extends State<SignUp> {
                                 ),
                               ),
                             ),
+                            altNavigate(context, "Already have an account?", "login", "Sign In"),
                           ],
                         ),
                       ),
@@ -227,10 +225,12 @@ class _SignUpState extends State<SignUp> {
                           padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
                           child: TextButton(
                             onPressed: (){
-                              setState(() {
-                                loading = !loading;
-                              });
-                              _registerUser();
+                              if(_formKeyTwo.currentState!.validate()){
+                                setState(() {
+                                  loading = !loading;
+                                });
+                                _registerUser();
+                              }
                             },
                             style: TextButton.styleFrom(
                               backgroundColor: Colors.blue,

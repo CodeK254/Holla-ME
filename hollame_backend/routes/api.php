@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+\Hizbul\SmsVerification\SmsVerificationProvider::registerRoutes($router);
 
 Route::post("/signup", [App\Http\Controllers\AuthsController::class, "register"]);
 
