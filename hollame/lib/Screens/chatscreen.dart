@@ -1,11 +1,11 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hollame/Constants/errors.dart';
 import 'package:hollame/Constants/widgets.dart';
 import 'package:hollame/Models/api_model.dart';
+import 'package:hollame/Screens/image_upload.dart';
 import 'package:hollame/Services/user_service.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -35,7 +35,8 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void sendYourMessage(int id, message) async {
-    ApiResponse response = await sendMessage(id, message);
+    String? image;
+    ApiResponse response = await sendMessage(image, id, message);
 
     if(response.error != null) {
       showDialog(
@@ -124,10 +125,10 @@ class _ChatScreenState extends State<ChatScreen> {
                       padding: EdgeInsets.all(8.0),
                       child: Icon(Icons.emoji_emotions_outlined, color: Colors.brown),
                     ),
-                    const SizedBox(width: 10),
+                    const SizedBox(width: 5),
                     Container(
                       constraints: BoxConstraints(
-                        maxWidth: MediaQuery.of(context).size.width * 0.6,
+                        maxWidth: MediaQuery.of(context).size.width * 0.55,
                         maxHeight: MediaQuery.of(context).size.height * 0.07,
                       ),
                       child: TextField(
@@ -141,6 +142,21 @@ class _ChatScreenState extends State<ChatScreen> {
                             letterSpacing: 1.2,
                           ),
                         ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context, 
+                            MaterialPageRoute(builder: (context) => ImageUpload(data: widget.data)),
+                          );
+                        },
+                        child: const Icon(
+                          Icons.attach_file, 
+                          color: Colors.brown
+                        )
                       ),
                     ),
                   ],
@@ -335,13 +351,28 @@ class _ChatScreenState extends State<ChatScreen> {
                                     ],
                                   ),
                                 ),
-                                const Divider(height: 0, color: Colors.brown),
+                                data[index]["image"] == null ?const Divider(height: 0, color: Colors.brown):
+                                Center(
+                                  child: Container(
+                                    constraints: BoxConstraints(
+                                      maxWidth: MediaQuery.of(context).size.width * 0.8,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      image: DecorationImage(
+                                        image: NetworkImage(data[index]["image"]),
+                                        fit:  BoxFit.cover,
+                                      )
+                                    ),
+                                    child: Image(image: NetworkImage(data[index]["image"])),
+                                  ),
+                                ),
                                 Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                                   child: Text(
                                     data[index]["message"],
-                                    style: GoogleFonts.rancho(
-                                      fontSize: 15,
+                                    style: const TextStyle(
+                                      fontSize: 12,
                                       color: Colors.white,
                                       fontWeight: FontWeight.normal,
                                     ),

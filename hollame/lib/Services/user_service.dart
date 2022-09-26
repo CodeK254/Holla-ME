@@ -216,7 +216,7 @@ Future userUpdate(String? imageBits, String name, String phone, String email, St
   return apiResponse;
 }
 
-Future<ApiResponse> sendMessage(int uid, String message) async {
+Future<ApiResponse> sendMessage(String? image, int uid, String message) async {
   ApiResponse apiResponse = ApiResponse();
   try{
     String token = await getToken();
@@ -226,9 +226,12 @@ Future<ApiResponse> sendMessage(int uid, String message) async {
         "Accept" : "application/json",
         "Authorization" : "Bearer $token",
       },
-      body: {
+      body: image == null ? {
         "message" : message,
-      },
+      } : {
+        "image" : image,
+        "message" : message,
+      }
     );
 
     switch(response.statusCode) {
@@ -281,7 +284,6 @@ Future<ApiResponse> getChat(int uid) async {
     switch(response.statusCode) {
       case 200:
         apiResponse.data = jsonDecode(response.body)["chats"];
-        print("Response body is: ${apiResponse.data}");
         break;
 
       case 422:

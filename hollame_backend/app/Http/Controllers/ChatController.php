@@ -32,7 +32,7 @@ class ChatController extends Controller
             "message" => $attrs["message"],
             "user_id" => (string)auth()->user()->id,
             "recipient_id" => $id,
-            $image = $image,
+            "image" => $image,
         ]);
 
         return response()->json([

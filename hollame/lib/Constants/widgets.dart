@@ -239,3 +239,95 @@ altNavigate(context, String statement, String route, String routeName) {
     ),
   );
 }
+
+messageInput(context, TextEditingController message, Future<dynamic> func, Future<dynamic> send) {
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Row(
+      children: [
+        Container(
+          constraints: BoxConstraints(
+            maxWidth: MediaQuery.of(context).size.width * 0.8,
+            maxHeight: MediaQuery.of(context).size.height * 0.08,
+          ),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
+              color: Colors.brown[100],
+              boxShadow: const [
+                BoxShadow(
+                  blurRadius: 1,
+                  color: Colors.black,
+                )
+              ]
+            ),
+            child: Row(
+              children: [
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Icon(Icons.emoji_emotions_outlined, color: Colors.brown),
+                ),
+                const SizedBox(width: 5),
+                Container(
+                  constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width * 0.55,
+                    maxHeight: MediaQuery.of(context).size.height * 0.07,
+                  ),
+                  child: TextField(
+                    controller: message,
+                    decoration: InputDecoration(
+                      hintText: "Message",
+                      hintStyle: GoogleFonts.firaSans(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white,
+                        letterSpacing: 1.2,
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      func;
+                    },
+                    child: const Icon(
+                      Icons.attach_file, 
+                      color: Colors.brown
+                    )
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        SizedBox(width: MediaQuery.of(context).size.width * 0.015),
+        GestureDetector(
+          onTap: (){
+            
+          },
+          child: CircleAvatar(
+            backgroundColor: Colors.brown,
+            radius: MediaQuery.of(context).size.width * 0.07,
+            child: message.text == "" ? const Center(
+              child: Icon(
+                Icons.mic,
+                color: Colors.white,
+                size: 25,
+              ),
+            )
+            :
+            const Center(
+              child: Icon(
+                Icons.send,
+                color: Colors.white,
+                size: 25,
+              ),
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}

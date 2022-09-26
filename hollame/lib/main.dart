@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hollame/Screens/home.dart';
+import 'package:hollame/Screens/image_upload.dart';
 import 'package:hollame/Screens/loading.dart';
 import 'package:hollame/Screens/login.dart';
 import 'package:hollame/Screens/register.dart';
