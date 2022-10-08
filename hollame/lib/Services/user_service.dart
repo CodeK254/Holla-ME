@@ -165,7 +165,7 @@ Future userUpdate(String? imageBits, String name, String phone, String email, St
     print("Image as parameter is: $imageBits");
     String token = await getToken();
     final response = await http.put(
-      Uri.parse("http://192.168.0.200:8000/api/users/user"),
+      Uri.parse(userURL),
       headers: {
         "Accept": "application/json",
         "Authorization" : "Bearer $token",
@@ -221,7 +221,7 @@ Future<ApiResponse> sendMessage(String? image, int uid, String message) async {
   try{
     String token = await getToken();
     final response = await http.post(
-      Uri.parse("http://192.168.0.200:8000/api/users/$uid"),
+      Uri.parse("$usersURL/$uid"),
       headers: {
         "Accept" : "application/json",
         "Authorization" : "Bearer $token",
@@ -274,7 +274,7 @@ Future<ApiResponse> getChat(int uid) async {
   try{
     String token = await getToken();
     final response = await http.get(
-      Uri.parse("http://192.168.0.200:8000/api/users/$uid/messages"),
+      Uri.parse("$usersURL/$uid/messages"),
       headers: {
         "Accept" : "application/json",
         "Authorization" : "Bearer $token",
